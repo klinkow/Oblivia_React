@@ -1,10 +1,15 @@
+
+
 class GameController < ApplicationController
 
 
 
-  def welcome
-
+  def index
+    @games = Game.order("created_at DESC")
+    render json: @games
   end
 
   
+
+
 end

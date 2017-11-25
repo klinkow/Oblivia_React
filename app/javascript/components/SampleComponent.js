@@ -5,15 +5,15 @@ export default class SampleComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      ideas: []
+      game: []
     }
   },
 
 
   componentDidMount() {
-    axios.get('http://localhost:3001/api/v1/ideas.json').then(response => {
+    axios.get('http://localhost:5000').then(response => {
       console.log(response)
-      this.setState({ideas: response.data})
+      this.setState({game: response.data})
     }).catch(error => console.log(error))
   },
 
