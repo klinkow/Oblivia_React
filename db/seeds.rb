@@ -8,3 +8,6 @@
 
 
 Game.create(player1: "Bill", player2: "Jennifer", player1score: 50, player2score: 0, question1: "The following headline comes from today's New York Times. _________ decides to invade North Korea", question1answer1: "Mike Pence", question1answer2: "Donald Trump", question1answer3: "Hilary Clinton", question1answer4: "Rob Haywood", question1correctAnswer: "Donald Trump", question1answered: "false")
+
+
+Game.create(player1: "Phil", player2: "Jannet", player1score: 10, player2score: 20, question1: "The following headline comes from today's New York Times. _________ refuses to attend dinner with a woman", question1answer1: "Mike Pence", question1answer2: "Donald Trump", question1answer3: "Hilary Clinton", question1answer4: "Rob Haywood", question1correctAnswer: "Mike Pence", question1answered: "false")
