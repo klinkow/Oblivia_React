@@ -2,12 +2,19 @@ import React from 'react';
 
 export default class Banner extends React.Component {
   render() {
-    const size = {
-      fontSize: '12vh'
+    const divStyle = {
+      border: '1px solid green',
+      fontSize: '4em',
+      position: 'fixed',
+      bottom: '50%',
+      width: '100%',
+      textAlign: 'center',
+    };
+    const pStyle = {
     };
     return (
-      <div style={size}>
-        <h1>{this.props.text}</h1>
+      <div style={divStyle}>
+        <p style={pStyle}>{this.props.text}</p>
       </div>
     );
   }

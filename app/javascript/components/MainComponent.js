@@ -36,9 +36,11 @@ export default class MainComponent extends React.Component {
 
   render() {
     const words = {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
+      position: 'absolute',
+      height: '100%',
+      width: '100%',
+      overflow: 'hidden',
+      border: "1px solid red",
       fontFamily: "'Amatic SC', cursive",
       backgroundColor: 'black',
       color: 'white',
@@ -56,8 +58,8 @@ export default class MainComponent extends React.Component {
     if (this.state.currentGame["gameStarted"]) {
       return (
         <div style={words} onMouseEnter={this.wordsHover} onMouseLeave={this.words}>
-          <Score1 text=""/>
-          <Score2 text=""/>
+          <Score1 text="Bill: 10"/>
+          <Score2 text="Jennifer: 0"/>
           <Banner text="Player 1, Enter your name"></Banner>
           <input onClick={() => this.player1Submit() }/>
           <Footer text="Resume:" link1="{this.state.allGames[0]}" link2="{this.state.allGames[1]}" link3="{this.state.allGames[2]}" link4="{this.state.allGames[3]}"/>
@@ -66,8 +68,8 @@ export default class MainComponent extends React.Component {
     } else if (this.state.currentGame) {
       return (
         <div style={words}>
-          <Score1 text=""/>
-          <Score2 text=""/>
+          <Score1 text="Bill: 10"/>
+          <Score2 text="Jennifer: 0"/>
           <Banner text="Welcome to Obvlivia, a 2-player trivia game."></Banner>
           <button className="button" onClick={() => this.newGameFunction() }>New Game</button>
           <Footer text="Resume:" link1="{this.state.allGames[0]}" link2="{this.state.allGames[1]}" link3="{this.state.allGames[2]}" link4="{this.state.allGames[3]}"/>
