@@ -6,7 +6,7 @@ export default class Banner extends React.Component {
       border: '1px solid green',
       fontSize: '4em',
       position: 'fixed',
-      bottom: '50%',
+      bottom: '60%',
       width: '100%',
       textAlign: 'center',
     };

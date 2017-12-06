@@ -10,7 +10,8 @@ export default class MainComponent extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { allGames: [], currentGame: {} };
+    this.state = { allGames: [], currentGame: {}, hover: false };
+
   }
 
   componentDidMount() {
@@ -19,20 +20,43 @@ export default class MainComponent extends React.Component {
       this.setState({ allGames: response.data })
       console.log(this.state.allGames, "length", this.state.currentGame.length)
     })
-    .catch(error => console.log(error))
+    .catch(error => console.log(error));
+
+  }
+
+  player1name = () => {
+    var assignName = (name) => {
+      this.setState({currentGame: {player1: name}});
+      }
+    document.addEventListener("keydown", function (e) {
+      if (e.keyCode === 13) {
+        var player1name = document.getElementById('Player1').value ? document.getElementById('Player1').value : "player 1";
+        assignName(player1name);
+      }
+    })
+  }
+
+  player2name = () => {
+    var assignName = (name) => {
+      this.setState({currentGame: {player1: name}});
+      }
+    document.addEventListener("keydown", function (e) {
+      if (e.keyCode === 13) {
+        var player2name = document.getElementById('Player2').value ? document.getElementById('Player2').value : "player 2";
+        assignName(player2name);
+      }
+    })
   }
 
   newGameFunction = () => {
-    axios.get('http://localhost:5000/api/v1/api/new').catch(error => console.log(error));
+    // axios.get('http://localhost:5000/api/v1/api/new').catch(error => console.log(error));
     this.setState({currentGame: {gameStarted: true}});
     console.log(this.state.currentGame)
   }
 
-  newGameFunction = () => {
-    this.setState({currentGame: {Player1: "Fred"}});
-    console.log(this.state.currentGame)
+  toggleHover = () => {
+    this.setState({hover: !this.state.hover})
   }
-
 
   render() {
     const words = {
@@ -51,33 +75,34 @@ export default class MainComponent extends React.Component {
       transitionProperty: 'transform',
       transformOrigin: '0 100%'
     };
-    const wordsHover = {
-      transform: 'skew(-10deg)'
-    }
 
-    if (this.state.currentGame["gameStarted"]) {
+    if (this.state.currentGame["player1"]) {
       return (
-        <div style={words} onMouseEnter={this.wordsHover} onMouseLeave={this.words}>
-          <Score1 text="Bill: 10"/>
-          <Score2 text="Jennifer: 0"/>
+        <div style={words}>
+          <Score1 text={this.state.player1}/>
+          <Banner text="Player 2, Enter your name"></Banner>
+          <Footer inputId="Player2" onClick={this.player2name()}/>
+
+        </div>
+      )
+    } else if (this.state.currentGame["gameStarted"]) {
+      return (
+        <div style={words}>
           <Banner text="Player 1, Enter your name"></Banner>
-          <input onClick={() => this.player1Submit() }/>
-          <Footer text="Resume:" link1="{this.state.allGames[0]}" link2="{this.state.allGames[1]}" link3="{this.state.allGames[2]}" link4="{this.state.allGames[3]}"/>
+          <Footer inputId="Player1" onClick={this.player1name()}/>
         </div>
       )
     } else if (this.state.currentGame) {
+      const aStyle = {
+        position: 'fixed',
+        bottom: '40%',
+        left: '45%',
+      }
       return (
         <div style={words}>
-          <Score1 text="Bill: 10"/>
-          <Score2 text="Jennifer: 0"/>
-          <Banner text="Welcome to Obvlivia, a 2-player trivia game."></Banner>
-          <button className="button" onClick={() => this.newGameFunction() }>New Game</button>
-          <Footer text="Resume:" link1="{this.state.allGames[0]}" link2="{this.state.allGames[1]}" link3="{this.state.allGames[2]}" link4="{this.state.allGames[3]}"/>
+          <Banner text="Welcome to Obvlivia, a 2-player trivia game"></Banner>
+          <a style={aStyle} onClick={() => this.newGameFunction() }>New Game</a>
         </div>
-      )
-    } else {
-      return (
-        <h1 style={words}>Else (MainComponent)</h1>
       )
     }
   }

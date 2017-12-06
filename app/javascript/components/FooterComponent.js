@@ -1,6 +1,7 @@
 import React from 'react';
 
 export default class Footer extends React.Component {
+
   render() {
     const divStyle = {
       border: '1px solid green',
@@ -10,13 +11,19 @@ export default class Footer extends React.Component {
       width: '100%',
       textAlign: 'center'
     };
-    const pStyle = {
 
+    if (this.props.inputId) {
+      return (
+        <div style={divStyle}>
+          <input id={this.props.inputId} type="text"/>
+        </div>
+      );
+    } else {
+      return (
+        <div style={divStyle}>
+          <p>{this.props.text}</p>
+        </div>
+      );
     }
-    return (
-      <div style={divStyle}>
-        <p style={pStyle}>{this.props.text}</p>
-      </div>
-    );
   }
 }
