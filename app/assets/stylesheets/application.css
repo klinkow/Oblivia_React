@@ -16,6 +16,7 @@
 
 body {
   background-color: black;
+  font-family: "Amatic SC";
 }
 
 body > div {
@@ -26,11 +27,29 @@ body > div {
 }
 
 p {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-color: black;
+  color: white;
+  text-decoration: none;
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px transparent;
+  transition-duration: 0.3s;
+  transition-property: transform;
+  transform-origin: 0 100%;
   margin: 0;
+  font-size: 4vw;
+  text-align: center;
+};
+
+div {
+  border: '1px solid green';
 }
 
 a {
-  font-size: 2.5em;
+  color: white;
+  font-size: 5vw;
   -webkit-transform: perspective(1px) translateZ(0);
   transform: perspective(1px) translateZ(0);
   box-shadow: 0 0 1px transparent;
@@ -57,6 +76,35 @@ input[type="text"]:focus {
   outline: none;
   box-shadow: 0 0 5px 2px white;
 }
+
+.banner {
+  position: fixed;
+  top: 6em;
+  width: 90%;
+  text-align: center;
+  margin: 0 5%;
+}
+
+.footer {
+  position: fixed;
+  bottom: 3em;
+  width: 90%;
+  text-align: center;
+  margin: 0 5%;
+}
+
+.score1 {
+  position: fixed;
+  top: 1em;
+  left: 1em;
+}
+
+.score2 {
+  position: fixed;
+  top: 1em;
+  right: 1em;
+}
+
 
 @-webkit-keyframes pulse {
   25% {

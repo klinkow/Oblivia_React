@@ -1,109 +1,78 @@
 import React from 'react';
 import axios from 'axios';
-import Score1 from './Score1Component'
-import Score2 from './Score2Component'
-import Banner from './BannerComponent'
-import Footer from './FooterComponent'
+import NewGame from './new_game';
+import EnterName from './enter_name';
+import Question from './question';
 
 export default class MainComponent extends React.Component {
-
-
   constructor(props) {
     super(props);
-    this.state = { allGames: [], currentGame: {}, hover: false };
-
+    this.state = { allGames: [], gameState: "newGame" };
   }
 
   componentDidMount() {
     axios.get('http://localhost:5000/api/v1/api.json')
     .then(response => {
-      this.setState({ allGames: response.data })
-      console.log(this.state.allGames, "length", this.state.currentGame.length)
+      this.setState((prevState) => {
+        var currentGame = Object.assign(response.data[0], {state: prevState.gameState}, [response.data]);
+        return currentGame
+      })
+      console.log("Main Component Mounted")
     })
     .catch(error => console.log(error));
-
   }
 
-  player1name = () => {
-    var assignName = (name) => {
-      this.setState({currentGame: {player1: name}});
-      }
-    document.addEventListener("keydown", function (e) {
-      if (e.keyCode === 13) {
-        var player1name = document.getElementById('Player1').value ? document.getElementById('Player1').value : "player 1";
-        assignName(player1name);
-      }
-    })
+  setPlayerName = (player, name) => {
+    if (player === 1) {
+      this.setState({player1: name, gameState: "player2Name"})
+    } else if (player === 2) {
+      this.setState({player2: name, gameState: "question1"})
+    }
+    console.log("player " + player + " set to: " + name);
   }
 
-  player2name = () => {
-    var assignName = (name) => {
-      this.setState({currentGame: {player1: name}});
-      }
-    document.addEventListener("keydown", function (e) {
-      if (e.keyCode === 13) {
-        var player2name = document.getElementById('Player2').value ? document.getElementById('Player2').value : "player 2";
-        assignName(player2name);
-      }
-    })
-  }
-
-  newGameFunction = () => {
-    // axios.get('http://localhost:5000/api/v1/api/new').catch(error => console.log(error));
-    this.setState({currentGame: {gameStarted: true}});
-    console.log(this.state.currentGame)
-  }
-
-  toggleHover = () => {
-    this.setState({hover: !this.state.hover})
+  setGameState = (value) => {
+    this.setState({gameState: value});
+    console.log("game state changed to " + value);
   }
 
   render() {
-    const words = {
-      position: 'absolute',
-      height: '100%',
-      width: '100%',
-      overflow: 'hidden',
-      border: "1px solid red",
-      fontFamily: "'Amatic SC', cursive",
-      backgroundColor: 'black',
-      color: 'white',
-      textDecoration: 'none',
-      transform: 'perspective(1px) translateZ(0)',
-      boxShadow: '0 0 1px transparent',
-      transitionDuration: '0.3s',
-      transitionProperty: 'transform',
-      transformOrigin: '0 100%'
-    };
-
-    if (this.state.currentGame["player1"]) {
-      return (
-        <div style={words}>
-          <Score1 text={this.state.player1}/>
-          <Banner text="Player 2, Enter your name"></Banner>
-          <Footer inputId="Player2" onClick={this.player2name()}/>
-
-        </div>
-      )
-    } else if (this.state.currentGame["gameStarted"]) {
-      return (
-        <div style={words}>
-          <Banner text="Player 1, Enter your name"></Banner>
-          <Footer inputId="Player1" onClick={this.player1name()}/>
-        </div>
-      )
-    } else if (this.state.currentGame) {
-      const aStyle = {
-        position: 'fixed',
-        bottom: '40%',
-        left: '45%',
-      }
-      return (
-        <div style={words}>
-          <Banner text="Welcome to Obvlivia, a 2-player trivia game"></Banner>
-          <a style={aStyle} onClick={() => this.newGameFunction() }>New Game</a>
-        </div>
-      )
+    console.log("main component rendered")
+    switch (this.state.gameState) {
+      case "newGame":
+        return (
+          <NewGame startGame={() => this.setGameState("player1Name")}/>
+        );
+        break;
+      case "player1Name":
+        return (
+          <EnterName
+            inputID="1"
+            newGameState={ (value) => {
+              this.setPlayerName(1, value)
+              }
+            }/>
+          );
+        break;
+      case "player2Name":
+        return (
+          <EnterName
+            inputID="2"
+            newGameState={ (value) => {
+              this.setPlayerName(2, value)
+              }
+            }/>
+          );
+        break;
+      case "question1":
+        return (
+          <Question
+            text={this.state.question1}
+            a={this.state.question1answer1}
+            b={this.state.question1answer2}
+            c={this.state.question1answer3}
+            d={this.state.question1answer4}/>
+          );
     }
   }
 }
